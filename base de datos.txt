@@ -1,0 +1,42 @@
+Normalización de base de datos 
+Contexto del Negocio:
+"Musical Express" es una tienda de instrumentos musicales que necesita gestionar su inventario, ventas, clientes y empleados. 
+La tienda vende instrumentos musicales, accesorios, también ofrece servicios de reparación. Actualmente, tienen toda su información
+ en una única tabla gigante que presenta varios problemas de redundancia y anomalías.
+Aquí está la tabla inicial (sin normalizar):
+CREATE TABLE musical_express_datos (
+    id_venta VARCHAR(10),*
+    fecha_venta DATE,*
+    cliente_id VARCHAR(15),*
+    cliente_nombre VARCHAR(100),--*
+    cliente_telefono VARCHAR(15),--*
+    cliente_email VARCHAR(100),--*
+    cliente_direccion VARCHAR(200),--*
+    vendedor_id VARCHAR(15),*
+    vendedor_nombre VARCHAR(100),--
+    vendedor_telefono VARCHAR(15),--
+    vendedor_email VARCHAR(100),--
+    vendedor_salario DECIMAL(10,2),--
+    vendedor_supervisor VARCHAR(100),--
+    producto_codigo VARCHAR(15),*
+    producto_nombre VARCHAR(100),*
+    producto_marca VARCHAR(50),*
+    producto_categoria VARCHAR(50), --
+    producto_precio_unitario DECIMAL(10,2),*
+    producto_stock INTEGER,*
+    producto_proveedor_codigo VARCHAR(100),*
+    producto_proveedor_nombre VARCHAR(100),--*
+    producto_proveedor_telefono VARCHAR(15),--*
+    producto_proveedor_email VARCHAR(100),--*
+    cantidad_vendida INTEGER,* -?-
+    precio_total DECIMAL(10,2),*
+    metodo_pago VARCHAR(50),*
+    numero_factura VARCHAR(20)*
+);
+Esta tabla presenta varios problemas de normalización, identificar y resolver:
+Identificar las dependencias funcionales
+Aplicar las formas normales (1FN, 2FN, 3FN)
+Crear las tablas necesarias con sus respectivas claves primarias y foráneas
+Establecer las relaciones correctas entre las tablas y generar el Script de la base de datos normalizada, (Subirla a MySqL)
+Ingresarle como mínimo 10 datos a cada una de las tablas por medio de código y guardar el Insert de cada una de las tablas de las bases de datos en un archivo .sql
+NOTA: Recuerde diseñar la normalización (Hojas o en programa) de la base de datos antes de realizar el Script de la misma 
