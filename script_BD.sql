@@ -25,7 +25,7 @@ USE tbl_musical_express(
     precio_venta DECIMAL (11,2) NOT NULL,--
     PRIMARY KEY (codigo_producto),
     FOREIGN KEY (codigo_subcategoria) REFERENCES tbl_subcategoria(codigo_subcategoria),
-    FOREIGN KEY (codigo_proveedor) REFERENCES tbl_proovedor(codigo_proveedor)
+    FOREIGN KEY (codigo_proveedor) REFERENCES tbl_proveedor(codigo_proveedor)
  )
 
  CREATE TABLE tbl_subcategoria(
@@ -42,12 +42,12 @@ USE tbl_musical_express(
     PRIMARY KEY (codigo_categoria)
  )
 
- CREATE TABLE tbl_proovedor(
+ CREATE TABLE tbl_proveedor(
     codigo_proveedor INT NOT NULL AUTO_INCREMENT,
     nombre_proveedor VARCHAR (35) NOT NULL,
     correo_proveedor VARCHAR (50) NOT NULL,
     telefono_proveedor INT (10) NOT NULL,
-    direccion_cliente VARCHAR (50) NOT NULL,
+    direccion_proveedor VARCHAR (50) NOT NULL,
     PRIMARY KEY (codigo_proveedor)
  )
 
