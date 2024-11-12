@@ -1,0 +1,126 @@
+1.Escribe una consulta para obtener el nombre_producto y el precio_venta de todos los productos cuyo precio_venta sea mayor a $100.
+
+USE bd_musical_espress;
+SELECT nombre_producto, precio_venta
+FROM tbl_productos
+WHERE precio_venta > 100000;
+ 
+cuando los datos que se necesiten estén en una misma tabla, no es necesario nombrarla en el SELECT, solo se nombran los datos necesarios.
+
+2. obtener el nombre_cliente, apellido_cliente y correo_cliente
+
+USE bd_musical_espress;
+SELECT nombre_cliente, apellido_cliente, correo_cliente
+FROM tbl_clientes
+WHERE id_cliente < 10
+
+
+3.obtener el nombre_producto, stock_producto y precio_venta de todos los productos cuyo stock_producto sea mayor o igual a 50 y cuyo precio_venta sea menor a 200
+
+USE bd_musical_espress;
+SELECT nombre_producto, stock_producto, precio_venta
+FROM tbl_productos
+WHERE stock_producto >= 50 AND precio_venta < 200000
+
+4. consulta para contar cuántos proveedores (tbl_proveedor) existen en la base de datos
+
+SELECT COUNT(*) AS total_proveedores
+FROM tbl_proveedor;
+
+cuando se coloca una cuenta, se debe colocar en paréntesis lo que queremos contar, y luego un AS para colocar que es lo que queremos contar, en este caso es el total
+
+5. cuántas ventas (tbl_musical_express) se han registrado en la base de datos
+
+SELECT COUNT(*) AS total_registros
+FROM tbl_musical_express;
+
+6. obtener el nombre_vendedor y apellido_vendedor de todos los vendedores que tengan un salario_vendedor mayor a 1500
+
+SELECT nombre_vendedor, apellido_vendedor
+FROM tbl_vendedor
+WHERE salario_vendedor > 1500000
+
+7. obtener el nombre_cliente, apellido_cliente, y nombre_producto de cada venta registrada
+
+SELECT tbl_clientes.nombre_cliente, tbl_clientes.apellido_cliente, tbl_productos.nombre_producto
+FROM tbl_musical_express
+JOIN tbl_clientes
+ON tbl_musical_express.id_cliente = tbl_clientes.id_cliente
+JOIN tbl_productos
+ON tbl_musical_express.codigo_producto = tbl_productos.codigo_producto
+
+cuando se estén uniendo las tablas en el ON, debe ir primero la tabla base, y luego se compara con la otra tabla
+
+
+8. obtener el nombre_producto, precio_venta, nombre_proveedor, y nombre_categoria de todos los productos
+
+SELECT tbl_productos.nombre_producto, tbl_productos.precio_venta, tbl_proveedor.nombre_proveedor, tbl_categorias.nombre_categoria
+FROM tbl_productos
+JOIN tbl_proveedor 
+ON tbl_productos.codigo_proveedor = tbl_proveedor.codigo_proveedor
+JOIN tbl_subcategoria 
+ON tbl_productos.codigo_subcategoria = tbl_subcategoria.codigo_subcategoria
+JOIN tbl_categorias
+ON tbl_subcategoria.codigo_categoria = tbl_categorias.codigo_categoria;
+ 
+ cuando el dato que necesitamos se una a una tabla que tiene una tabla anterior a esa la debemos colocar para que se pueda hacer la unión. y puede que no salgan todos los 
+ productos ya que en por ejemplo los servicios no cuentan un proveedor
+
+ 9.  obtener el nombre_cliente, apellido_cliente, nombre_producto, y precio_total de todas las ventas registradas en tbl_musical_express
+ 
+  SELECT tbl_clientes.nombre_cliente, tbl_clientes.apellido_cliente, tbl_productos.nombre_producto,
+    SUM(tbl_musical_express.precio_total) AS precio_total_ventas
+  FROM tbl_musical_express
+  JOIN tbl_clientes 
+  ON tbl_musical_express.id_cliente = tbl_clientes.id_cliente
+  JOIN tbl_productos
+  ON tbl_musical_express.codigo_producto = tbl_productos.codigo_producto
+  GROUP BY tbl_clientes.id_cliente, tbl_productos.codigo_producto;
+
+
+10. lista de todos los productos vendidos, junto con el nombre de su proveedor, el nombre de la categoría a la que pertenecen, y el precio de ventas.
+La consulta debe agrupar los resultados por proveedor y categoría, y mostrar el total de ventas de cada producto.
+
+SELECT tbl_productos.nombre_producto, tbl_proveedor.nombre_proveedor, tbl_categorias.nombre_categoria, tbl_productos.precio_venta
+FROM tbl_productos 
+JOIN tbl_proveedor
+ON tbl_productos.codigo_proveedor = tbl_proveedor.codigo_proveedor
+JOIN tbl_subcategoria
+ON tbl_productos.codigo_subcategoria = tbl_subcategoria.codigo_subcategoria
+JOIN tbl_categorias 
+ON tbl_subcategoria.codigo_categoria = tbl_categorias.codigo_categoria
+
+11.  obtener el nombre del cliente, el nombre del producto, el precio de venta y el nombre del vendedor para todas las ventas que superen los $500
+
+SELECT tbl_clientes.nombre_cliente, 
+tbl_productos.nombre_producto, 
+tbl_musical_express.precio_total, 
+tbl_vendedor.nombre_vendedor
+FROM tbl_musical_express
+JOIN tbl_clientes
+ON tbl_musical_express.id_cliente = tbl_clientes.id_cliente
+JOIN tbl_productos
+ON tbl_musical_express.codigo_producto = tbl_productos.codigo_producto
+JOIN tbl_vendedor
+ON tbl_musical_express.id_vendedor = tbl_vendedor.id_vendedor
+WHERE tbl_musical_express.precio_total > 80000
+
+12. total de ventas de cada vendedor en cada categoría
+
+SELECT 
+    tbl_vendedor.nombre_vendedor, 
+    tbl_categorias.nombre_categoria, 
+    SUM(tbl_musical_express.precio_total) AS total_ventas
+FROM tbl_musical_express
+JOIN tbl_vendedor
+    ON tbl_musical_express.id_vendedor = tbl_vendedor.id_vendedor
+JOIN tbl_productos
+    ON tbl_musical_express.codigo_producto = tbl_productos.codigo_producto
+JOIN tbl_subcategoria
+    ON tbl_productos.codigo_subcategoria = tbl_subcategoria.codigo_subcategoria
+JOIN tbl_categorias
+    ON tbl_subcategoria.codigo_categoria = tbl_categorias.codigo_categoria
+
+GROUP BY tbl_vendedor.id_vendedor, tbl_categorias.codigo_categoria;
+
+
