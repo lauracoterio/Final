@@ -124,3 +124,133 @@ JOIN tbl_categorias
 GROUP BY tbl_vendedor.id_vendedor, tbl_categorias.codigo_categoria;
 
 
+13. Calcular el valor total de las ventas realizadas por cada vendedor
+
+SELECT tbl_vendedor.nombre_vendedor,
+   SUM(tbl_musical_express.precio_total) AS total_ventas_vendedor
+   FROM tbl_musical_express
+   JOIN tbl_vendedor
+   ON tbl_musical_express.id_vendedor = tbl_vendedor.id_vendedor
+   GROUP BY tbl_vendedor.id_vendedor;
+
+
+14. Mostrar el nombre de los productos junto con su subcategoría y categoría.
+
+SELECT tbl_productos.nombre_producto, tbl_subcategoria.nombre_subcategoria, tbl_categorias.nombre_categoria
+FROM tbl_productos
+JOIN tbl_subcategoria
+ON tbl_productos.codigo_subcategoria = tbl_subcategoria.codigo_subcategoria
+JOIN tbl_categorias
+ON tbl_subcategoria.codigo_categoria = tbl_categorias.codigo_categoria
+
+15. Obtener el promedio del valor de venta de los productos por categoría
+
+SELECT tbl_categorias.nombre_categoria,
+   AVG(tbl_productos.precio_venta) AS promedio_ventas
+   FROM tbl_productos
+   JOIN tbl_subcategoria
+   ON tbl_productos.codigo_subcategoria = tbl_subcategoria.codigo_subcategoria
+   JOIN tbl_categorias
+   ON tbl_subcategoria.codigo_categoria = tbl_categorias.codigo_categoria
+   GROUP BY tbl_categorias.nombre_categoria;
+
+   16. Listar a los vendedores por una categoría específica
+
+   SELECT tbl_vendedor.nombre_vendedor, tbl_categorias.nombre_categoria
+   FROM tbl_musical_express
+   JOIN tbl_vendedor
+   ON tbl_musical_express.id_vendedor = tbl_vendedor.id_vendedor
+   JOIN tbl_productos
+   ON tbl_musical_express.codigo_producto= tbl_productos.codigo_producto
+   JOIN tbl_subcategoria
+   ON tbl_productos.codigo_subcategoria = tbl_subcategoria.codigo_subcategoria
+   JOIN tbl_categorias
+   ON tbl_subcategoria.codigo_categoria = tbl_categorias.codigo_categoria
+   WHERE tbl_categorias.nombre_categoria = "Instrumentos";
+
+
+   17.Mostrar el nombre de los productos junto con la fecha de su última venta
+
+   SELECT tbl_producto.nombre_producto, fecha_venta
+   FROM tbl_musical_express
+   JOIN tbl_productos
+   ON tbl_musical_express.codigo_producto = tbl_productos.codigo_producto;
+
+   18. Mostrar los productos que tienen una existencia mayor a 100 unidades
+
+   SELECT nombre_producto, stock_producto
+   FROM tbl_productos
+   WHERE stock_producto > 100;
+
+   19. Obtener el nombre de los productos cuyo valor de venta es mayor que el precio promedio de todos los productos
+
+   SELECT nombre_producto, precio_venta
+   FROM tbl_productos
+   WHERE tbl_productos.precio_venta > (SELECT AVG (precio_total) FROM tbl_musical_express);
+
+
+   20. Obtener el nombre de los productos junto con el nombre de su vendedor.
+
+   SELECT tbl_productos.nombre_producto, tbl_vendedor.nombre_vendedor
+   FROM tbl_musical_express
+   JOIN tbl_vendedor
+   ON tbl_musical_express.id_vendedor = tbl_vendedor.id_vendedor
+   JOIN tbl_productos
+   ON tbl_musical_express.codigo_producto = tbl_productos.codigo_producto
+
+   21. Mostrar los productos que no han sido vendidos en los últimos 30 días
+
+   SELECT nombre_producto
+   FROM tbl_musical_express
+   JOIN tbl_productos
+   ON tbl_musical_express.codigo_producto = tbl_productos.codigo_producto
+   WHERE fecha_venta is NULL
+   OR (SELECT DATEDIFF(CURDATE(), fecha_venta) AS diferencia_dias) > 30;
+
+
+   22. Obtener el nombre del producto, la existencia y el nombre de la categoría
+
+   SELECT tbl_productos.nombre_producto, tbl_productos.stock_producto, tbl_categorias.nombre_categoria
+   FROM tbl_productos
+   JOIN tbl_subcategoria
+   ON tbl_productos.codigo_subcategoria = tbl_subcategoria.codigo_subcategoria
+   JOIN tbl_categorias
+   ON tbl_subcategoria.codigo_categoria = tbl_categorias.codigo_categoria;
+
+
+   23. listar el cliente, su vendedor y el supervisor
+
+   SELECT tbl_clientes.nombre_cliente, tbl_vendedor.nombre_vendedor, tbl_supervisor.nombre_supervisor
+   FROM tbl_musical_express
+   JOIN tbl_clientes
+   ON tbl_musical_express.id_cliente = tbl_clientes.id_cliente
+   JOIN tbl_vendedor
+   ON tbl_musical_express.id_vendedor = tbl_vendedor.id_vendedor
+   JOIN tbl_supervisor
+   ON tbl_vendedor.id_supervisor = tbl_supervisor.id_supervisor;
+
+
+   24. listar a los clientes, el producto y el medio de pago
+
+   SELECT tbl_clientes.nombre_cliente, tbl_productos.nombre_producto, tbl_metodo_pago.nombre_metodo_pago
+   FROM tbl_musical_express
+   JOIN tbl_clientes
+   ON tbl_musical_express.id_cliente = tbl_clientes.id_cliente
+   JOIN tbl_productos
+   ON tbl_musical_express.codigo_producto = tbl_productos.codigo_producto
+   JOIN tbl_metodo_pago
+   ON tbl_musical_express.codigo_metodo_pago = tbl_metodo_pago.codigo_metodo_pago;
+
+
+
+Obtener el promedio del valor de venta de los productos por categoría
+
+SELECT tbl_categorias.nombre_categoria,
+   AVG(precio_venta) FROM tbl_productos
+   JOIN tbl_subcategoria
+   ON tbl_productos.codigo_subcategoria = tbl_subcategoria.codigo_subcategoria
+   JOIN tbl_categorias
+   ON tbl_subcategoria.codigo_categoria = tbl_categorias.codigo_categoria
+   GROUP BY tbl_categorias.nombre_categoria;
+   
+    
